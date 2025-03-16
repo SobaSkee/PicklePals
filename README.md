@@ -25,3 +25,8 @@
 - download ngrok here: https://ngrok.com/downloads <br>
 - run the ngrok command to add auth your token (its on the setup page): https://dashboard.ngrok.com/get-started/setup <br>
 - run the ngrok command to test our locally hosted app on our ngrok domain: ngrok http --url=evolving-wombat-adapted.ngrok-free.app 3000
+- now you can try visiting our app that has been forwarded to this domain (it should look exactly like the local version): https://evolving-wombat-adapted.ngrok-free.app
+- to test out clerk webhook, go to clerk dashboard and scroll down until you see webhooks on the left sidebar
+- click the endpoint and click testing
+- select user.created event type and send the example
+- we should see this dummy payload in our mongodb and on prisma studio now if it was sent properly
