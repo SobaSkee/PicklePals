@@ -13,7 +13,7 @@
 
 ## Test prisma and mongodb
 - open another terminal in VSCode <br>
-- run npx prisma studio to start which allows us to visualize the handling od data to interact with mongodb <br>
+- run npx prisma studio to start which allows us to visualize the handling of data to interact with mongodb <br>
 - it should be on something like localhost:5555 so navigate to that url <br>
 - once on here we can try adding a dummy user (you might already see one named john) <br>
 - put in an example email and name and save changes <br>
