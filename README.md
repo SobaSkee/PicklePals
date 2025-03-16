@@ -9,7 +9,7 @@
 - create .env file <br>
 - paste the keys if you're a contributor <br>
 - reload the app <br>
-- now you can test out authentication and see sign up/sign in of a new user by going to clerk.com dashboard
+- now you can test out authentication by signing up or signing in, then go to clerk.com dashboard to see the account you logged in with
 
 ## Test prisma and mongodb
 - open another terminal in VSCode <br>
