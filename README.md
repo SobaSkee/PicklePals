@@ -17,7 +17,7 @@
 - it should be on something like localhost:5555 so navigate to that url <br>
 - once on here we can try adding a dummy user (you might already see one named john) <br>
 - put in an example email and name and save changes <br>
-- now going to the landing page we should see that user rendered into the array of Users
+- now navigate to localhost:3000/users we should see that user rendered into the array of Users
 - go to mongodb and check the collections for picklepals and you should see the user you added in the user collection
 
 ## Test clerk webhooks using ngrok because clerk api can't reach our locally hosted app
