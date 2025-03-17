@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 async function Page() {
   const users = await prisma.user.findMany();
   return (
-    <div>
+    <div className="pt-16">
       <p>Users:</p>
       {JSON.stringify(users)}
     </div>
