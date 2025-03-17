@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 export async function createUser(data: User) {
   try {
     const user = await prisma.user.create({ data });
-    return { user };
+    return new Response(JSON.stringify(user), { status: 201 });
   } catch (error) {
     return { error };
   }
