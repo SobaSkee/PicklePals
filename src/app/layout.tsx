@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Menu, Instagram, Twitter, Facebook } from "lucide-react";
-import Link from "next/link";
-import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import pickleballLogo2 from "@/../public/pickleball-logo-2.svg";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,109 +29,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen mx-auto`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen mx-auto flex flex-col`}
         >
-          <header className="fixed inset-0 bg-[#01A7FF] px-4 z-40 h-16 w-full">
-            <div className="container flex h-16 items-center justify-between py-4 px-4">
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-3xl text-white font-bold">PickePals</span>
-                <Image
-                  src={pickleballLogo2}
-                  width={55}
-                  height={55}
-                  alt="logo"
-                  className="rounded-full"
-                ></Image>
-              </div>
-
-              {/* Mobile menu button */}
-              <div className="md:hidden">
-                <Button variant="ghost" size="icon" className="text-base">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </div>
-              {/* Desktop navigation */}
-              <nav className="hidden md:flex items-center gap-2">
-                {/* <Link
-              href="#features"
-              className="text-sm font-medium hover:text-primary"
-            >
-              Features
-            </Link>
-            <Link
-              href="#community"
-              className="text-sm font-medium hover:text-primary"
-            >
-              Community
-            </Link> */}
-                <Button
-                  className="bg-[#c0ff18] hover:bg-[#c0ff18]/95 text-black "
-                  asChild
-                >
-                  <SignUpButton />
-                </Button>
-                <Button variant={"ghost"} className="text-white" asChild>
-                  <SignInButton />
-                </Button>
-
-                <UserButton />
-              </nav>
-            </div>
-          </header>
-          {children}
-          <footer className="w-full border-t md:py-0">
-            <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-              <div className="flex items-center gap-2">
-                <p className="text-sm text-muted-foreground">
-                  © {new Date().getFullYear()} PicklePals. All rights reserved.
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <Instagram className="h-5 w-5" />
-                  <span className="sr-only">Instagram</span>
-                </Link>
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <Facebook className="h-5 w-5" />
-                  <span className="sr-only">Facebook</span>
-                </Link>
-                <Link
-                  href="#"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <Twitter className="h-5 w-5" />
-                  <span className="sr-only">Twitter</span>
-                </Link>
-              </div>
-              <nav className="flex gap-4 md:gap-6">
-                <Link
-                  href="#"
-                  className="text-xs hover:underline underline-offset-4"
-                >
-                  Privacy Policy
-                </Link>
-                <Link
-                  href="#"
-                  className="text-xs hover:underline underline-offset-4"
-                >
-                  Terms of Service
-                </Link>
-                <Link
-                  href="#"
-                  className="text-xs hover:underline underline-offset-4"
-                >
-                  Contact Us
-                </Link>
-              </nav>
-            </div>
-          </footer>
+          <Header />
+          <main className="flex-1 w-full mt-16">{children}</main>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
