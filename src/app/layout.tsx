@@ -29,10 +29,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen mx-auto flex flex-col`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen mx-auto flex flex-col`}
+          suppressHydrationWarning
         >
           <Header />
-          <main className="flex-1 w-full mt-16">{children}</main>
+          <main className="flex-1 w-full">{children}</main>
           <Footer />
         </body>
       </html>

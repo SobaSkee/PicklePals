@@ -7,7 +7,7 @@ import { Menu } from "lucide-react";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 function Header() {
   return (
-    <header className="fixed inset-0 bg-[#01A7FF] px-4 z-40 h-16 w-full flex justify-between">
+    <header className="sticky inset-0 bg-[#01A7FF] px-4 z-40 h-16 w-full flex justify-between">
       <div className="container flex h-16 items-center justify-between py-4 px-4">
         <Link href="/" className="flex items-center justify-center gap-2">
           <span className="text-3xl text-white font-bold">PickePals</span>
@@ -49,7 +49,6 @@ function Header() {
           <Button variant={"ghost"} className="text-white" asChild>
             <SignInButton />
           </Button>
-
           <UserButton />
         </nav>
       </div>
