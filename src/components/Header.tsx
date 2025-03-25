@@ -10,7 +10,7 @@ function Header() {
     <header className="sticky inset-0 bg-[#01A7FF] px-4 z-40 h-16 w-full flex justify-between">
       <div className="container flex h-16 items-center justify-between py-4 px-4">
         <Link href="/" className="flex items-center justify-center gap-2">
-          <span className="text-3xl text-white font-bold">PickePals</span>
+          <span className="text-3xl text-white font-bold">PicklePals</span>
           <Image
             src={pickleballLogo2}
             width={55}
