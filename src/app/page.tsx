@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+
 import Image from "next/image";
 import {
   ChevronRight,
@@ -9,7 +9,7 @@ import {
   CheckCircle2,
   Star,
   Download,
-  Menu,
+
 } from "lucide-react";
 import landingBackground from "../../public/landing-image.svg";
 import Link from "next/link";
@@ -19,12 +19,12 @@ export default function HomePage() {
     <div className="flex flex-col items-center justify-center">
       {/* hero section */}
       <section
-        className="w-full h-[600px] bg-[#01A7FF]"
+        className="w-full h-screen bg-[#01A7FF]"
         style={{
           backgroundImage: `url(${landingBackground.src})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "left",
+          backgroundPosition: "left top -130px",
         }}
       >
         <div className="container px-4 md:px-6 mt-36 w-full h-full flex items-start justify-end">
@@ -134,7 +134,7 @@ export default function HomePage() {
                   Join a Growing Community
                 </h2>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  PicklePals is more than an app - it's a community of
+                  PicklePals is more than an app - it&apos;s a community of
                   passionate players who love the game.
                 </p>
               </div>
@@ -198,9 +198,9 @@ export default function HomePage() {
                   ))}
                 </div>
                 <p className="text-muted-foreground">
-                  "PicklePals helped me find courts I never knew existed and
-                  connect with players at my level. I've made great friends and
-                  improved my game!"
+                &quot;PicklePals helped me find courts I never knew existed and
+                  connect with players at my level. I&apos;ve made great friends and
+                  improved my game!&quot;
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -230,8 +230,8 @@ export default function HomePage() {
                   ))}
                 </div>
                 <p className="text-muted-foreground">
-                  "As a competitive player, finding worthy opponents was always
-                  a challenge. PicklePals solved that problem completely!"
+                &quot;As a competitive player, finding worthy opponents was always
+                  a challenge. PicklePals solved that problem completely!&quot;
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -261,9 +261,9 @@ export default function HomePage() {
                   ))}
                 </div>
                 <p className="text-muted-foreground">
-                  "I moved to a new city and didn't know anyone. PicklePals
+                &quot;I moved to a new city and didn&apos;t know anyone. PicklePals
                   helped me find the local pickleball scene and make new friends
-                  instantly!"
+                  instantly!&quot;
                 </p>
               </div>
               <div className="flex items-center gap-2">
