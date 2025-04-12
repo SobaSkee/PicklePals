@@ -18,3 +18,15 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model Courts {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  lat         Float
+  lng         Float
+  image       String?
+  // capacity    Int
+  // surfaceType String
+  // createdAt   DateTime @default(now())
+  // updatedAt   DateTime @updatedAt
+}

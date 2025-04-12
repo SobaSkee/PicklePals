@@ -1,10 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import ReactDOMServer from "react-dom/server";
 import * as mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import axios from "axios";
+import { Court } from "@/components/MarkerPopup";
+import MarkerPopup from "@/components/MarkerPopup";
 
 const MAPBOX_ACCESS_TOKEN = process.env
   .NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
@@ -18,36 +21,37 @@ if (!IPINFO_API_KEY) {
 
 // test data (get from database later)
 
-const courts = [
-  {
-    id: 1,
-    name: "Northside Park",
-    lat: 29.70743498704277,
-    lng: -82.35371900410598,
-  },
-  {
-    id: 2,
-    name: "Forest Park",
-    lat: 29.636549532177156,
-    lng: -82.39134797316163,
-  },
-  {
-    id: 3,
-    name: "Flavet Sports Field",
-    lat: 29.645905378302785,
-    lng: -82.35272140477402,
-  },
-  {
-    id: 4,
-    name: "Southwest Rec Tennis/Pickleball Courts",
-    lat: 29.638423998683724,
-    lng: -82.36711401872542,
-  },
-];
+// const courts = [
+//   {
+//     id: 1,
+//     name: "Northside Park",
+//     lat: 29.70743498704277,
+//     lng: -82.35371900410598,
+//   },
+//   {
+//     id: 2,
+//     name: "Forest Park",
+//     lat: 29.636549532177156,
+//     lng: -82.39134797316163,
+//   },
+//   {
+//     id: 3,
+//     name: "Flavet Sports Field",
+//     lat: 29.645905378302785,
+//     lng: -82.35272140477402,
+//   },
+//   {
+//     id: 4,
+//     name: "Southwest Rec Tennis/Pickleball Courts",
+//     lat: 29.638423998683724,
+//     lng: -82.36711401872542,
+//   },
+// ];
 
 function Page() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const [courts, setCourts] = useState<Court[]>([]);
   const [userLocation, setUserLocation] = useState<{
     lat: number;
     lng: number;
@@ -77,11 +81,24 @@ function Page() {
     fetchUserLocation();
   }, []);
 
+  // fetch courts from database
   useEffect(() => {
-    // Only initialize the map if userLocation is valid
+    const fetchCourts = async () => {
+      try {
+        const response = await axios.get("/api/courts"); // make GET request to fetch courts
+        setCourts(response.data); // set the fetched data to state
+      } catch (error) {
+        console.error("Error fetching courts:", error);
+      }
+    };
+    fetchCourts(); //
+  }, []);
+
+  useEffect(() => {
+    // only initialize the map if userLocation is valid
     if (!mapContainerRef.current || !userLocation) return;
 
-    const { lat, lng } = userLocation; // TypeScript will now understand that userLocation is not null
+    const { lat, lng } = userLocation;
     if (isNaN(lat) || isNaN(lng)) {
       console.error("Invalid latitude or longitude", lat, lng);
       return;
@@ -103,13 +120,21 @@ function Page() {
     });
     mapRef.current.addControl(geocoder);
 
-    // Add markers for each pickleball court
+    // add markers for each pickleball court
     courts.forEach((court) => {
-      // Check if mapRef.current is not null before adding markers
+      const popupHTML = ReactDOMServer.renderToString(
+        <MarkerPopup
+          name={court.name}
+          lat={court.lat}
+          lng={court.lng}
+          image={court.image}
+        />
+      );
+      // check if mapRef.current is not null before adding markers
       if (mapRef.current) {
         new mapboxgl.Marker()
           .setLngLat([court.lng, court.lat])
-          .setPopup(new mapboxgl.Popup().setHTML(`<h3>${court.name}</h3>`)) // Display court name on click
+          .setPopup(new mapboxgl.Popup().setHTML(popupHTML))
           .addTo(mapRef.current);
       }
     });
@@ -118,7 +143,7 @@ function Page() {
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, [userLocation]); // Trigger map initialization when userLocation is updated
+  }, [userLocation, courts]); // trigger map initialization when userLocation is updated
 
   return (
     <div className="w-full h-full">
