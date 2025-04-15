@@ -24,7 +24,10 @@ model Courts {
   name        String
   lat         Float
   lng         Float
-  image       String?
+  public      Boolean?
+  description String
+  image       String
+  address     String
   // capacity    Int
   // surfaceType String
   // createdAt   DateTime @default(now())
