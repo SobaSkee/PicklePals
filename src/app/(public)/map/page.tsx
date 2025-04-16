@@ -9,6 +9,7 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import axios from "axios";
 import { Court } from "@/components/MarkerPopup";
 import MarkerPopup from "@/components/MarkerPopup";
+import CourtSidebar from "@/components/CourtSidebar";
 
 const MAPBOX_ACCESS_TOKEN = process.env
   .NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
@@ -19,35 +20,6 @@ if (!MAPBOX_ACCESS_TOKEN) {
 if (!IPINFO_API_KEY) {
   throw new Error("Set IPinfo API key in NEXT_PUBLIC_IPINFO_API_KEY");
 }
-
-// test data (get from database later)
-
-// const courts = [
-//   {
-//     id: 1,
-//     name: "Northside Park",
-//     lat: 29.70743498704277,
-//     lng: -82.35371900410598,
-//   },
-//   {
-//     id: 2,
-//     name: "Forest Park",
-//     lat: 29.636549532177156,
-//     lng: -82.39134797316163,
-//   },
-//   {
-//     id: 3,
-//     name: "Flavet Sports Field",
-//     lat: 29.645905378302785,
-//     lng: -82.35272140477402,
-//   },
-//   {
-//     id: 4,
-//     name: "Southwest Rec Tennis/Pickleball Courts",
-//     lat: 29.638423998683724,
-//     lng: -82.36711401872542,
-//   },
-// ];
 
 function Page() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -61,6 +33,7 @@ function Page() {
   const [search, setSearch] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const filteredCourts = courts.filter((court) =>
     court.name.toLowerCase().includes(search.toLowerCase())
@@ -69,16 +42,15 @@ function Page() {
   const handleSelectCourt = (court: Court) => {
     setSearch(court.name);
     setShowDropdown(false);
-    // Pan map to court location
     if (mapRef.current) {
-      mapRef.current.flyTo({ center: [court.lng, court.lat], zoom: 14 });
+      mapRef.current.flyTo({ center: [court.lng, court.lat - 0.005], zoom: 14 });
       const { x, y } = mapRef.current.project([court.lng, court.lat]);
       setPopupPosition({ x, y });
       setSelectedCourt(court);
+      setShowSidebar(false);
     }
   };
 
-  // fetch user location
   useEffect(() => {
     const fetchUserLocation = async () => {
       try {
@@ -102,21 +74,19 @@ function Page() {
     fetchUserLocation();
   }, []);
 
-  // fetch courts from database
   useEffect(() => {
     const fetchCourts = async () => {
       try {
-        const response = await axios.get("/api/courts/get"); // make GET request to fetch courts
-        setCourts(response.data); // set the fetched data to state
+        const response = await axios.get("/api/courts/get");
+        setCourts(response.data);
       } catch (error) {
         console.error("Error fetching courts:", error);
       }
     };
-    fetchCourts(); //
+    fetchCourts();
   }, []);
 
   useEffect(() => {
-    // only initialize the map if userLocation is valid
     if (!mapContainerRef.current || !userLocation) return;
 
     const { lat, lng } = userLocation;
@@ -129,18 +99,19 @@ function Page() {
       accessToken: MAPBOX_ACCESS_TOKEN,
       style: "mapbox://styles/mapbox/streets-v11",
       container: mapContainerRef.current,
-      center: [lng, lat], // order is lng, lat
+      center: [lng, lat],
       zoom: 11,
     });
 
-    // add markers for each pickleball court
     courts.forEach((court) => {
       if (mapRef.current) {
         const marker = new mapboxgl.Marker()
           .setLngLat([court.lng, court.lat])
           .addTo(mapRef.current);
         marker.getElement().addEventListener("click", () => {
+          setShowSidebar(false);
           setSelectedCourt(court);
+          mapRef.current!.flyTo({ center: [court.lng, court.lat + 0.015], zoom: 12 });
           const { x, y } = mapRef.current!.project([court.lng, court.lat]);
           setPopupPosition({ x, y });
         });
@@ -151,10 +122,10 @@ function Page() {
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, [userLocation, courts]); // trigger map initialization when userLocation is updated
+  }, [userLocation, courts]);
 
   useEffect(() => {
-    if (!mapRef.current || !selectedCourt) return;
+    if (!mapRef.current || !selectedCourt || showSidebar) return;
 
     const updatePopupPosition = () => {
       const { x, y } = mapRef.current!.project([selectedCourt.lng, selectedCourt.lat]);
@@ -169,7 +140,7 @@ function Page() {
       mapRef.current?.off("move", updatePopupPosition);
       mapRef.current?.off("zoom", updatePopupPosition);
     };
-  }, [selectedCourt]);
+  }, [selectedCourt, showSidebar]);
 
   return (
     <div className="w-full h-full">
@@ -195,7 +166,10 @@ function Page() {
               ×
             </button>
           </div>
-          <MarkerPopup {...selectedCourt} />
+          <MarkerPopup {...selectedCourt} onViewDetails={() => {
+            setPopupPosition(null);
+            setShowSidebar(true);
+          }} />
         </div>
       )}
       
@@ -206,7 +180,7 @@ function Page() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => setShowDropdown(true)}
-          onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // delay for click
+          onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
           className="w-full px-3 py-2 rounded border border-gray-300 focus:outline-none bg-white"
         />
         {showDropdown && filteredCourts.length > 0 && (
@@ -228,6 +202,9 @@ function Page() {
         ref={mapContainerRef}
         className="h-full w-full"
       ></div>
+      {showSidebar && selectedCourt && (
+        <CourtSidebar court={selectedCourt} onClose={() => setShowSidebar(false)} />
+      )}
     </div>
   );
 }
