@@ -101,7 +101,7 @@ const handleSelectCourt = (court: Court) => {
   useEffect(() => {
     const fetchCourts = async () => {
       try {
-        const response = await axios.get("/api/courts"); // make GET request to fetch courts
+        const response = await axios.get("/api/courts/get"); // make GET request to fetch courts
         setCourts(response.data); // set the fetched data to state
       } catch (error) {
         console.error("Error fetching courts:", error);
