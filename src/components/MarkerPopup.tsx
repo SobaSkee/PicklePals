@@ -16,7 +16,7 @@ const MarkerPopup: React.FC<Court> = ({ name, lat, lng, image }) => {
       {/* <p>
         Coordinates: {lat}, {lng}
       </p> */}
-      <img src={`data:image/png;base64,${image}`} alt={name} />
+      <img src={`data:image/jpg;base64,${image}`} alt={name} />
     </div>
   );
 };

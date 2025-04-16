@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { SearchIcon } from "lucide-react";
 import ReactDOMServer from "react-dom/server";
 import * as mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
@@ -56,6 +57,21 @@ function Page() {
     lat: number;
     lng: number;
   } | null>(null);
+  const [search, setSearch] = useState("");
+const [showDropdown, setShowDropdown] = useState(false);
+
+const filteredCourts = courts.filter((court) =>
+  court.name.toLowerCase().includes(search.toLowerCase())
+);
+
+const handleSelectCourt = (court: Court) => {
+  setSearch(court.name);
+  setShowDropdown(false);
+  // Pan map to court location
+  if (mapRef.current) {
+    mapRef.current.flyTo({ center: [court.lng, court.lat], zoom: 14 });
+  }
+};
 
   // fetch user location
   useEffect(() => {
@@ -111,14 +127,18 @@ function Page() {
       center: [lng, lat], // order is lng, lat
       zoom: 11,
     });
+    
 
-    const geocoder = new MapboxGeocoder({
-      accessToken: MAPBOX_ACCESS_TOKEN,
-      mapboxgl: mapboxgl,
-      bbox: [-82.85235, 29.4681, -81.72848, 29.88553],
-      proximity: { longitude: -82.3248, latitude: 29.6516 },
-    });
-    mapRef.current.addControl(geocoder);
+
+    // const geocoder = new MapboxGeocoder({
+    //   accessToken: MAPBOX_ACCESS_TOKEN,
+    //   mapboxgl: mapboxgl,
+
+    //   bbox: [-82.85235, 29.4681, -81.72848, 29.88553],
+    //   proximity: { longitude: -82.3248, latitude: 29.6516 },
+      
+    // });
+    // mapRef.current.addControl(geocoder);
 
     // add markers for each pickleball court
     courts.forEach((court) => {
@@ -139,6 +159,7 @@ function Page() {
       }
     });
 
+
     return () => {
       mapRef.current?.remove();
       mapRef.current = null;
@@ -147,6 +168,32 @@ function Page() {
 
   return (
     <div className="w-full h-full">
+      
+      <div className="absolute top-20 left-4 z-10 w-[300px] max-w-full">
+
+    <input
+      type="text"
+      placeholder="Search for a court..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      onFocus={() => setShowDropdown(true)}
+      onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // delay for click
+      className="w-full px-3 py-2 rounded border border-gray-300 focus:outline-none bg-white"
+    />
+    {showDropdown && filteredCourts.length > 0 && (
+      <ul className="absolute mt-1 w-full bg-white border border-gray-300 rounded shadow z-20 max-h-60 overflow-y-auto">
+        {filteredCourts.map((court, index) => (
+          <li
+            key={index}
+            onMouseDown={() => handleSelectCourt(court)}
+            className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+          >
+            {court.name}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
       <div
         id="map-container"
         ref={mapContainerRef}
