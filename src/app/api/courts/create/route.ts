@@ -9,7 +9,7 @@ export async function POST(req: Request) {
       const lat = parseFloat(formData.get("lat") as string);
       const lng = parseFloat(formData.get("lng") as string);
       const address = formData.get("address") as string;
-      const isPublic = formData.get("public") === "true";
+      const isPublic = formData.get("isPublic") === "true";
       const description = formData.get("description") as string;
       const imageFile = formData.get("image") as File;
   
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
         lat,
         lng,
         address,
-        public: isPublic,
+        isPublic: isPublic,
         description,
         image, // now a base64 string
       });

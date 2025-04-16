@@ -5,7 +5,7 @@ interface CourtData {
   lat: number;
   lng: number;
   address: string;
-  public: boolean;
+  isPublic: boolean;
   description: string;
   image: string;
 }
@@ -18,7 +18,7 @@ export async function createCourt(data: CourtData) {
         lat: data.lat,
         lng: data.lng,
         address: data.address,
-        public: data.public,
+        isPublic: data.isPublic,
         description: data.description,
         image: data.image,
       },

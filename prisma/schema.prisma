@@ -7,29 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Courts {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  address     String
+  description String
+  image       String
+  isPublic    Boolean
+  lat         Float
+  lng         Float
+  name        String
+}
 
 model User {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  email       String   @unique
-  firstName   String?
-  lastName    String?
-  imageUrl    String?
   clerkUserId String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Courts {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  lat         Float
-  lng         Float
-  public      Boolean?
-  description String
-  image       String
-  address     String
-  // capacity    Int
-  // surfaceType String
-  // createdAt   DateTime @default(now())
-  // updatedAt   DateTime @updatedAt
+  createdAt   DateTime @db.Date
+  email       String   @unique
+  firstName   String
+  imageUrl    String
+  updatedAt   DateTime @db.Date
 }
