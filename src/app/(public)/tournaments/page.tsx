@@ -17,7 +17,7 @@ type Tournament = {
 
 const fetchTournaments = async (
   setTournaments: React.Dispatch<React.SetStateAction<Tournament[]>>,
-  setUsernames: React.Dispatch<React.SetStateAction<Record<string, string>>>
+  setUsernames: React.Dispatch<React.SetStateAction<Record<string, { username: string; email: string }>>>
 ) => {
   try {
     const res = await fetch("/api/tournaments");
@@ -25,16 +25,16 @@ const fetchTournaments = async (
     setTournaments(data);
 
     const ids = Array.from(new Set(data.flatMap((t: Tournament) => t.users)));
-    const nameMap: Record<string, string> = {};
+    const nameMap: Record<string, { username: string; email: string }> = {};
 
     for (const rawId of ids) {
       const id = String(rawId);
       try {
         const res = await fetch(`/api/user/${id}`);
-        const info: { username: string } = await res.json();
-        nameMap[id] = info.username || "Unknown";
+        const info: { username: string; email: string } = await res.json();
+        nameMap[id] = { username: info.username || "Unknown", email: info.email || "" };
       } catch {
-        nameMap[id] = "Unknown";
+        nameMap[id] = { username: "Unknown", email: "" };
       }
     }
 
@@ -55,7 +55,7 @@ function Page() {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const [usernames, setUsernames] = useState<Record<string, string>>({});
+  const [usernames, setUsernames] = useState<Record<string, { username: string; email: string }>>({});
 
   useEffect(() => {
     setLoading(true);
@@ -204,7 +204,10 @@ function Page() {
                   <p className="text-sm font-semibold text-gray-700 mb-1">RSVP'd Players:</p>
                   <ul className="list-disc list-inside text-sm text-gray-600">
                     {tournament.users.map((userId) => (
-                      <li key={userId}>{usernames[userId] || userId}</li>
+                      <li key={userId}>
+                        {usernames[userId]?.username || userId}
+                        {usernames[userId]?.email && ` (${usernames[userId].email})`}
+                      </li>
                     ))}
                   </ul>
                 </div>
