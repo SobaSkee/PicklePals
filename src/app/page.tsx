@@ -5,14 +5,15 @@ import {
   ChevronRight,
   MapPin,
   Users,
-  Calendar,
   CheckCircle2,
   Star,
-  Download,
+  Trophy,
 
 } from "lucide-react";
 import landingBackground from "../../public/landing-image.svg";
 import Link from "next/link";
+import { RippleButton } from "@/components/RippleButton";
+import happyBro from "../../public/happy-bro-pickleball.jpg"
 
 export default function HomePage() {
   return (
@@ -79,8 +80,8 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 mt-12 place-items-center">
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm max-w-[500px] w-full mx-auto">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 mt-12 place-items-center">
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm max-w-[450px] w-full mx-auto">
               <div className="rounded-full bg-primary/10 p-3">
                 <MapPin className="h-6 w-6 text-primary" />
               </div>
@@ -89,16 +90,35 @@ export default function HomePage() {
                 Discover pickleball courts near you with ratings, amenities, and
                 real-time availability.
               </p>
+              <RippleButton>
+                <Link href="/map">Search Courts</Link>
+              </RippleButton>
             </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm max-w-[500px] w-full mx-auto">
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm max-w-[450px] w-full mx-auto">
               <div className="rounded-full bg-primary/10 p-3">
-                <Calendar className="h-6 w-6 text-primary" />
+                <Trophy className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-bold">Join Events</h3>
+              <h3 className="text-xl font-bold">Join tournaments</h3>
               <p className="text-center text-muted-foreground">
                 Find and register for local tournaments, clinics, and social
                 play events.
               </p>
+              <RippleButton>
+                <Link href="/tournaments">Join Tournaments</Link>
+              </RippleButton>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm max-w-[450px] w-full mx-auto">
+              <div className="rounded-full bg-primary/10 p-3">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold">Find Players</h3>
+              <p className="text-center text-muted-foreground">
+                Find and register for local tournaments, clinics, and social
+                play events.
+              </p>
+              <RippleButton>
+                <Link href="/players">Find Players</Link>
+              </RippleButton>
             </div>
           </div>
         </div>
@@ -107,59 +127,62 @@ export default function HomePage() {
       {/* Community Section */}
       <section
         id="community"
-        className="w-full py-12 md:py-24 lg:py-32 bg-muted"
+        className="w-full py-12"
       >
-        <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-[400px_1fr] lg:gap-12 xl:grid-cols-[600px_1fr]">
-            <Image
-              src="https://placehold.co/400x550"
-              width={200}
-              height={550}
-              alt="PicklePals Community"
-              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full"
-            />
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Join a Growing Community
-                </h2>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  PicklePals is more than an app - it&apos;s a community of
-                  passionate players who love the game.
-                </p>
-              </div>
-              <ul className="grid gap-4">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <h3 className="font-bold">10,000+ Active Players</h3>
-                    <p className="text-muted-foreground">
-                      Connect with thousands of players in your area
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <h3 className="font-bold">Skill-Based Matching</h3>
-                    <p className="text-muted-foreground">
-                      Find players at your level from beginners to advanced
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <h3 className="font-bold">Local Groups</h3>
-                    <p className="text-muted-foreground">
-                      Join community groups organized by location and interest
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
+      <div className="w-full px-4 md:px-6">
+  <div className="mx-auto max-w-7xl grid items-center gap-12 lg:grid-cols-2">
+    <div className="flex justify-center">
+      <Image
+        src={happyBro}
+        width={500}
+        alt="PicklePals Community"
+        className="w-full max-w-[500px] aspect-video rounded-xl object-cover"
+      />
+    </div>
+
+    <div className="flex flex-col justify-center space-y-6 text-center lg:text-left">
+      <div className="space-y-3">
+        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
+          Join a Growing Community
+        </h2>
+        <p className="max-w-xl text-muted-foreground text-base md:text-lg lg:text-base xl:text-lg mx-auto lg:mx-0">
+          PicklePals is more than an app – it&apos;s a community of passionate players who love the game.
+        </p>
+      </div>
+
+      <ul className="space-y-4 mx-auto lg:mx-0">
+        <li className="flex items-start gap-3">
+          <CheckCircle2 className="mt-1 h-5 w-5 text-primary" />
+          <div>
+            <h3 className="font-semibold">10,000+ Active Players</h3>
+            <p className="text-muted-foreground text-sm">
+              Connect with thousands of players in your area
+            </p>
           </div>
-        </div>
+        </li>
+        <li className="flex items-start gap-3">
+          <CheckCircle2 className="mt-1 h-5 w-5 text-primary" />
+          <div>
+            <h3 className="font-semibold">Skill-Based Matching</h3>
+            <p className="text-muted-foreground text-sm">
+              Find players at your level from beginners to advanced
+            </p>
+          </div>
+        </li>
+        <li className="flex items-start gap-3">
+          <CheckCircle2 className="mt-1 h-5 w-5 text-primary" />
+          <div>
+            <h3 className="font-semibold">Local Groups</h3>
+            <p className="text-muted-foreground text-sm">
+              Join community groups organized by location and interest
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
       </section>
 
       {/* Testimonials */}
@@ -344,7 +367,7 @@ export default function HomePage() {
               </p>
             </div>
             
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <Image
                 src="https://placehold.co/600x300"
                 width={600}
@@ -352,7 +375,7 @@ export default function HomePage() {
                 alt="PicklePals App Screenshots"
                 className="mx-auto rounded-xl shadow-lg"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
