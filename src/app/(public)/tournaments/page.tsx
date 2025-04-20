@@ -2,6 +2,15 @@
 import { useUser } from "@clerk/nextjs";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 type Tournament = {
   id: string;
@@ -70,57 +79,55 @@ function Page() {
         </h1>
         {isSignedIn && (
           <div className="flex justify-center mb-8">
-            <button
-              onClick={() => setOpen(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-            >
-              Create Tournament
-            </button>
-          </div>
-        )}
-
-        {open && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800">New Tournament</h2>
-              <input className="border px-3 py-2 w-full" placeholder="Name" onChange={(e) => setName(e.target.value)} />
-              <input className="border px-3 py-2 w-full" placeholder="Court" onChange={(e) => setCourt(e.target.value)} />
-              <input className="border px-3 py-2 w-full" type="number" placeholder="Max Size" onChange={(e) => setMaxSize(Number(e.target.value))} />
-              <textarea className="border px-3 py-2 w-full" placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
-              <input
-                className="border px-3 py-2 w-full"
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setImage(reader.result as string);
-                    };
-                    reader.readAsDataURL(e.target.files[0]);
-                  }
-                }}
-              />
-              <div className="flex justify-end gap-2">
-                <button className="text-gray-500" onClick={() => setOpen(false)}>Cancel</button>
-                <button
-                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                  onClick={async () => {
-                    await fetch("/api/tournaments", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json"
-                      },
-                      body: JSON.stringify({ name, court, maxSize, description, image, users: [] })
-                    });
-                    setOpen(false);
-                    fetchTournaments(setTournaments, setUsernames);
-                  }}
-                >
-                  Submit
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                  Create Tournament
                 </button>
-              </div>
-            </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Create Tournament</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <Input placeholder="Name" onChange={(e) => setName(e.target.value)} />
+                  <Input placeholder="Court" onChange={(e) => setCourt(e.target.value)} />
+                  <Input type="number" placeholder="Max Size" onChange={(e) => setMaxSize(Number(e.target.value))} />
+                  <Textarea placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          setImage(reader.result as string);
+                        };
+                        reader.readAsDataURL(e.target.files[0]);
+                      }
+                    }}
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                      onClick={async () => {
+                        await fetch("/api/tournaments", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json"
+                          },
+                          body: JSON.stringify({ name, court, maxSize, description, image, users: [] })
+                        });
+                        setOpen(false);
+                        fetchTournaments(setTournaments, setUsernames);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
 

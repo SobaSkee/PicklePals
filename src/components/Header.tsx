@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import pickleballLogo2 from "@/../public/pickleball-logo-2.svg";
@@ -10,10 +10,11 @@ import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 
 function Header() {
   const { isSignedIn } = useUser();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky inset-0 bg-[#01A7FF] px-4 z-40 h-16 w-full flex justify-between">
-      <div className="flex h-16 items-center justify-between w-full max-w-screen-2xl mx-auto py-4 px-4">
+<header className="sticky inset-0 bg-[#01A7FF] z-40 w-full">
+  <div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto h-16 px-4">
         <Link href="/" className="flex items-center justify-center gap-2">
           <span className="text-3xl text-white font-bold">PicklePals</span>
           <Image
@@ -37,7 +38,12 @@ function Header() {
         </div>
         {/* Mobile menu button */}
         <div className="md:hidden">
-          <Button variant="ghost" size="icon" className="text-base">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-base"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
             <Menu className="h-5 w-5" />
             <span className="sr-only">Toggle menu</span>
           </Button>
@@ -60,6 +66,27 @@ function Header() {
           {isSignedIn && <UserButton />}
         </nav>
       </div>
+      {mobileOpen && (
+        <div className="absolute top-16 left-0 w-full bg-[#01A7FF] text-white px-6 py-4 z-30 shadow-md space-y-4">
+          <Link href="/map" onClick={() => setMobileOpen(false)} className="block hover:underline">Courts</Link>
+          <Link href="/tournaments" onClick={() => setMobileOpen(false)} className="block hover:underline">Tournaments</Link>
+          <Link href="/players" onClick={() => setMobileOpen(false)} className="block hover:underline">Players</Link>
+          {!isSignedIn ? (
+            <>
+              <div className="pt-2">
+                <SignUpButton />
+              </div>
+              <div>
+                <SignInButton />
+              </div>
+            </>
+          ) : (
+            <div className="pt-2">
+              <UserButton />
+            </div>
+          )}
+        </div>
+      )}
     </header>
   );
 }
