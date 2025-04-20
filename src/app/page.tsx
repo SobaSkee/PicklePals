@@ -79,8 +79,8 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 mt-12 place-items-center">
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm max-w-[500px] w-full mx-auto">
               <div className="rounded-full bg-primary/10 p-3">
                 <MapPin className="h-6 w-6 text-primary" />
               </div>
@@ -90,17 +90,7 @@ export default function HomePage() {
                 real-time availability.
               </p>
             </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm">
-              <div className="rounded-full bg-primary/10 p-3">
-                <Users className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold">Match With Players</h3>
-              <p className="text-center text-muted-foreground">
-                Connect with players at your skill level for competitive and fun
-                matches.
-              </p>
-            </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm">
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm max-w-[500px] w-full mx-auto">
               <div className="rounded-full bg-primary/10 p-3">
                 <Calendar className="h-6 w-6 text-primary" />
               </div>
@@ -350,20 +340,10 @@ export default function HomePage() {
                 Ready to Find Your Pickleball Community?
               </h2>
               <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Download PicklePals today and start connecting with players in
-                your area.
+                Use PicklePals today and start playing at local courts!
               </p>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Button size="lg" className="gap-2">
-                <Download className="h-5 w-5" />
-                App Store
-              </Button>
-              <Button size="lg" variant="outline" className="gap-2">
-                <Download className="h-5 w-5" />
-                Google Play
-              </Button>
-            </div>
+            
             <div className="mt-4">
               <Image
                 src="https://placehold.co/600x300"
