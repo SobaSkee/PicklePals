@@ -31,6 +31,9 @@ function Header() {
           <Link href="/tournaments" className="text-white hover:underline text-md font-medium">
             Tournaments
           </Link>
+          <Link href="/players" className="text-white hover:underline text-md font-medium">
+            Players
+          </Link>
         </div>
         {/* Mobile menu button */}
         <div className="md:hidden">

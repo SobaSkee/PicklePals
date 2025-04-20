@@ -39,3 +39,14 @@ model Tournaments {
   userId      String
   image       String
 }
+
+model PlayerPost {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   // Clerk user ID
+  username        String
+  skill           String
+  preferredCourts String
+  availability    String
+  description     String?
+  createdAt DateTime @default(now())
+}
