@@ -11,7 +11,7 @@ interface TournamentData {
 
 export async function createTournament(data: TournamentData) {
   try {
-    const tournament = await prisma.courts.create({
+    const tournament = await prisma.tournaments.create({
       data: {
         name: data.name,
         court: data.court,
