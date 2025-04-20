@@ -1,4 +1,5 @@
-"use client";
+ "use client";
+import { useUser } from "@clerk/nextjs";
 import React, { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
@@ -13,6 +14,7 @@ type Tournament = {
 
 function Page() {
   const [open, setOpen] = useState(false);
+  const { isSignedIn } = useUser();
   const [name, setName] = useState("");
   const [host, setHost] = useState("");
   const [court, setCourt] = useState("");
@@ -41,14 +43,16 @@ function Page() {
         <h1 className="text-4xl font-extrabold mb-6 text-center text-gray-800">
           Upcoming Tournaments
         </h1>
-        <div className="flex justify-center mb-8">
-          <button
-            onClick={() => setOpen(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-          >
-            Create Tournament
-          </button>
-        </div>
+        {isSignedIn && (
+          <div className="flex justify-center mb-8">
+            <button
+              onClick={() => setOpen(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+            >
+              Create Tournament
+            </button>
+          </div>
+        )}
 
         {open && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
