@@ -48,5 +48,6 @@ model PlayerPost {
   preferredCourts String
   availability    String
   description     String?
-  createdAt DateTime @default(now())
+  instagram       String?   // New field for Instagram link
+  createdAt       DateTime  @default(now())
 }

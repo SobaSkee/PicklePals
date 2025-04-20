@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
       preferredCourts: string;
       availability: string;
       description?: string;
+      instagram?: string;
     };
 
     // Check if a post already exists
@@ -37,10 +38,24 @@ export async function POST(req: NextRequest) {
     const post = existing
       ? await prisma.playerPost.update({
           where: { id: existing.id },
-          data: { ...body },
+          data: {
+            skill: body.skill,
+            preferredCourts: body.preferredCourts,
+            availability: body.availability,
+            description: body.description,
+            instagram: body.instagram,
+          },
         })
       : await prisma.playerPost.create({
-          data: { ...body, userId, username },
+          data: {
+            skill: body.skill,
+            preferredCourts: body.preferredCourts,
+            availability: body.availability,
+            description: body.description,
+            instagram: body.instagram,
+            userId,
+            username,
+          },
         });
 
     return NextResponse.json(post);
