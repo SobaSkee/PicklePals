@@ -1,15 +1,16 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { SearchIcon } from "lucide-react";
-import ReactDOMServer from "react-dom/server";
+
 import * as mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import axios from "axios";
 import { Court } from "@/components/MarkerPopup";
 import MarkerPopup from "@/components/MarkerPopup";
 import CourtSidebar from "@/components/CourtSidebar";
+import Link from "next/link";
+import Image from "next/image";
 
 const MAPBOX_ACCESS_TOKEN = process.env
   .NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
@@ -32,8 +33,12 @@ function Page() {
   } | null>(null);
   const [search, setSearch] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
-  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
+  const [popupPosition, setPopupPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const filteredCourts = courts.filter((court) =>
     court.name.toLowerCase().includes(search.toLowerCase())
@@ -43,7 +48,10 @@ function Page() {
     setSearch(court.name);
     setShowDropdown(false);
     if (mapRef.current) {
-      mapRef.current.flyTo({ center: [court.lng, court.lat - 0.005], zoom: 14 });
+      mapRef.current.flyTo({
+        center: [court.lng, court.lat - 0.005],
+        zoom: 14,
+      });
       const { x, y } = mapRef.current.project([court.lng, court.lat]);
       setPopupPosition({ x, y });
       setSelectedCourt(court);
@@ -81,6 +89,8 @@ function Page() {
         setCourts(response.data);
       } catch (error) {
         console.error("Error fetching courts:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCourts();
@@ -102,6 +112,7 @@ function Page() {
       center: [lng, lat],
       zoom: 11,
     });
+    mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     courts.forEach((court) => {
       if (mapRef.current) {
@@ -111,7 +122,10 @@ function Page() {
         marker.getElement().addEventListener("click", () => {
           setShowSidebar(false);
           setSelectedCourt(court);
-          mapRef.current!.flyTo({ center: [court.lng, court.lat + 0.015], zoom: 12 });
+          mapRef.current!.flyTo({
+            center: [court.lng, court.lat + 0.015],
+            zoom: 12,
+          });
           const { x, y } = mapRef.current!.project([court.lng, court.lat]);
           setPopupPosition({ x, y });
         });
@@ -128,7 +142,10 @@ function Page() {
     if (!mapRef.current || !selectedCourt || showSidebar) return;
 
     const updatePopupPosition = () => {
-      const { x, y } = mapRef.current!.project([selectedCourt.lng, selectedCourt.lat]);
+      const { x, y } = mapRef.current!.project([
+        selectedCourt.lng,
+        selectedCourt.lat,
+      ]);
       setPopupPosition({ x, y });
     };
 
@@ -142,19 +159,28 @@ function Page() {
     };
   }, [selectedCourt, showSidebar]);
 
-  return (
+  return isLoading || !userLocation ? (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="text-gray-600 text-lg animate-pulse">
+        Getting courts in your area...
+      </div>
+    </div>
+  ) : (
     <div className="w-full h-full">
       {selectedCourt && popupPosition && (
         <div
           className="absolute z-20 bg-white p-4 rounded-lg shadow-lg w-[300px]"
-          style={{ left: popupPosition.x, top: popupPosition.y, transform: "translate(-50%, -100%)" }}
+          style={{
+            left: popupPosition.x,
+            top: popupPosition.y,
+            transform: "translate(-50%, -100%)",
+          }}
         >
           <div className="relative w-full h-[160px] overflow-hidden rounded-md mb-3">
-            <img
-              src={`data:image/jpg;base64,${selectedCourt.image}`}
+
+            <Image src={`data:image/jpg;base64,${selectedCourt.image}`}
               alt={selectedCourt.name}
-              className="w-full h-full object-cover"
-            />
+              className="w-full h-full object-cover"></Image>
             <button
               onClick={() => {
                 setSelectedCourt(null);
@@ -166,13 +192,16 @@ function Page() {
               ×
             </button>
           </div>
-          <MarkerPopup {...selectedCourt} onViewDetails={() => {
-            setPopupPosition(null);
-            setShowSidebar(true);
-          }} />
+          <MarkerPopup
+            {...selectedCourt}
+            onViewDetails={() => {
+              setPopupPosition(null);
+              setShowSidebar(true);
+            }}
+          />
         </div>
       )}
-      
+
       <div className="absolute top-20 left-4 z-10 w-[300px] max-w-full">
         <input
           type="text"
@@ -194,17 +223,26 @@ function Page() {
                 {court.name}
               </li>
             ))}
+            <li className="px-3 py-2 text-sm text-gray-600 border-t border-gray-200">
+              <p className="mb-1">Court not listed?</p>
+              <Link
+                href="/courts/new"
+                className="text-blue-600 hover:underline font-medium"
+              >
+                Request a Court
+              </Link>
+            </li>
           </ul>
         )}
       </div>
-      <div
-        id="map-container"
-        ref={mapContainerRef}
-        className="h-full w-full"
-      ></div>
-      {showSidebar && selectedCourt && (
-        <CourtSidebar court={selectedCourt} onClose={() => setShowSidebar(false)} />
-      )}
+      <div id="map-container" ref={mapContainerRef} className="h-full w-full">
+        {showSidebar && selectedCourt && (
+          <CourtSidebar
+            court={selectedCourt}
+            onClose={() => setShowSidebar(false)}
+          />
+        )}
+      </div>
     </div>
   );
 }

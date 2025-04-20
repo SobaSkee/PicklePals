@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface CourtSidebarProps {
   court: {
@@ -25,10 +26,10 @@ const CourtSidebar: React.FC<CourtSidebarProps> = ({ court, onClose }) => {
   return (
     <div
       style={{
-        position: "fixed",
-        top: 0,
+        position: "absolute",
         right: 0,
-        height: "100vh",
+        top: 0,  
+        height: "100%",
         width: "40%",
         backgroundColor: "white",
         opacity: 0.95,
@@ -37,6 +38,8 @@ const CourtSidebar: React.FC<CourtSidebarProps> = ({ court, onClose }) => {
         paddingRight: "20px",
         zIndex: 1000,
         display: "flex",
+        gap: "16px",
+        overflowY: "auto",
         flexDirection: "column",
         transform: slideIn ? "translateX(0%)" : "translateX(100%)",
         transition: "transform 0.3s ease-in-out",
@@ -65,7 +68,7 @@ const CourtSidebar: React.FC<CourtSidebarProps> = ({ court, onClose }) => {
           marginBottom: "16px",
         }}
       />
-      <h2 style={{ fontSize: "40px", fontWeight: "bold"}}>{name}</h2>
+      <h2 style={{ fontSize: "40px", fontWeight: "bold", lineHeight: "2rem"}}>{name}</h2>
       <p style={{ fontSize: "16px", color: "#444" }}>{address}</p>
       <p style={{ fontSize: "14px", color: "#555", marginTop: "12px", marginBottom: "12px"}}>{description}</p>
       
@@ -78,6 +81,19 @@ const CourtSidebar: React.FC<CourtSidebarProps> = ({ court, onClose }) => {
       >
         {isPublic ? "Public Court" : "Private Court"}
       </p>
+      <p>Don't see a court listed in your area? Request a new court to be added!</p>
+
+        <Link href="/courts/new" style={{
+          backgroundColor: "#0284C7",
+          color: "white",
+          padding: "12px 24px",
+          borderRadius: "8px",
+          border: "none",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontWeight: 600,
+        }}>Request a Court</Link>
+
     </div>
   );
 };
