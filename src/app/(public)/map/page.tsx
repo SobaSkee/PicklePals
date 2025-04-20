@@ -10,7 +10,6 @@ import { Court } from "@/components/MarkerPopup";
 import MarkerPopup from "@/components/MarkerPopup";
 import CourtSidebar from "@/components/CourtSidebar";
 import Link from "next/link";
-import Image from "next/image";
 
 const MAPBOX_ACCESS_TOKEN = process.env
   .NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN as string;
@@ -162,7 +161,7 @@ function Page() {
   return isLoading || !userLocation ? (
     <div className="w-full h-full flex items-center justify-center">
       <div className="text-gray-600 text-lg animate-pulse">
-        Getting courts in your area...
+        Getting courts near you...
       </div>
     </div>
   ) : (
@@ -177,10 +176,11 @@ function Page() {
           }}
         >
           <div className="relative w-full h-[160px] overflow-hidden rounded-md mb-3">
-
-            <Image src={`data:image/jpg;base64,${selectedCourt.image}`}
+            <img
+              src={`data:image/jpg;base64,${selectedCourt.image}`}
               alt={selectedCourt.name}
-              className="w-full h-full object-cover"></Image>
+              className="w-full h-full object-cover"
+            />
             <button
               onClick={() => {
                 setSelectedCourt(null);
