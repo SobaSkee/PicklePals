@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { InstagramIcon } from "lucide-react";
 
 type PlayerPost = {
   id: string;
@@ -15,6 +16,7 @@ type PlayerPost = {
   preferredCourts: string;
   availability: string;
   description?: string;
+  instagram?: string;
 };
 
 export default function PlayersPage() {
@@ -25,6 +27,7 @@ export default function PlayersPage() {
   const [availability, setAvailability] = useState("");
   const [description, setDescription] = useState("");
   const { user } = useUser();
+  const [instagram, setInstagram] = useState("");
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -48,7 +51,7 @@ export default function PlayersPage() {
     const res = await fetch("/api/players", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ skill, preferredCourts, availability, description }),
+      body: JSON.stringify({ skill, preferredCourts, availability, description, instagram }),
     });
 
     if (res.ok) {
@@ -82,6 +85,12 @@ export default function PlayersPage() {
                 <Input placeholder="Preferred courts (e.g. Southwest, Northwood)" value={preferredCourts} onChange={(e) => setPreferredCourts(e.target.value)} />
                 <Input placeholder="Availability (e.g. Weekends, Evenings)" value={availability} onChange={(e) => setAvailability(e.target.value)} />
                 <Textarea placeholder="Add a short description..." value={description} onChange={(e) => setDescription(e.target.value)} />
+                <Input
+                  type="url"
+                  placeholder="Instagram profile URL (optional)"
+                  value={instagram}
+                  onChange={(e) => setInstagram(e.target.value)}
+                />
                 <Button onClick={handleSubmit} className="w-full" disabled={!skill || !preferredCourts || !availability}>Submit</Button>
               </div>
             </DialogContent>
@@ -102,6 +111,19 @@ export default function PlayersPage() {
               <div className="text-sm text-gray-600 mb-1">🏟️ <strong>Courts:</strong> {p.preferredCourts}</div>
               <div className="text-sm text-gray-600 mb-1">🕒 <strong>Availability:</strong> {p.availability}</div>
               {p.description && <p className="mt-2 text-sm italic text-gray-700">“{p.description}”</p>}
+              {p.instagram && (
+                <div className="mt-2">
+                  <a
+                    href={p.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-pink-600 hover:underline text-sm"
+                  >
+                    <InstagramIcon className="w-4 h-4 mr-1" strokeWidth={1.75} />
+                    View Instagram
+                  </a>
+                </div>
+              )}
               {user?.id === p.userId && (
                 <Button
                   variant="destructive"
