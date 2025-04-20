@@ -2,7 +2,7 @@
 import React from "react";
 import prisma from "@/lib/prisma";
 
-async function Tourney() {
+async function Page() {
   const tournaments = await prisma.tournaments.findMany();
   return (
     <div className="pt-16">
@@ -12,4 +12,4 @@ async function Tourney() {
   );
 }
 
-export default Tourney;
+export default Page;
