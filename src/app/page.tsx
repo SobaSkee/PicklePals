@@ -27,7 +27,7 @@ export default function HomePage() {
           backgroundPosition: "left top -130px",
         }}
       >
-        <div className="container px-4 md:px-6 mt-36 w-full h-full flex items-start justify-end">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-6 mt-36 h-full flex items-start justify-end">
           <div className="flex flex-col gap-8 max-w-lg items-end mr-10">
             <div className="space-y-2">
               <p className="text-white text-3xl text-right">IMPROVE YOUR</p>
@@ -67,7 +67,7 @@ export default function HomePage() {
 
       {/* Features Section */}
       <section id="features" className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
+          <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -119,7 +119,7 @@ export default function HomePage() {
         id="community"
         className="w-full py-12 md:py-24 lg:py-32 bg-muted"
       >
-        <div className="container px-4 md:px-6">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-[400px_1fr] lg:gap-12 xl:grid-cols-[600px_1fr]">
             <Image
               src="https://placehold.co/400x550"
@@ -174,7 +174,7 @@ export default function HomePage() {
 
       {/* Testimonials */}
       <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
+          <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -291,7 +291,7 @@ export default function HomePage() {
         id="how-it-works"
         className="w-full py-12 md:py-24 lg:py-32 bg-muted"
       >
-        <div className="container px-4 md:px-6">
+          <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -343,7 +343,7 @@ export default function HomePage() {
         id="download"
         className="w-full py-12 md:py-24 lg:py-32 border-t"
       >
-        <div className="container px-4 md:px-6">
+        <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
