@@ -27,3 +27,13 @@ model User {
   imageUrl    String
   updatedAt   DateTime @db.Date
 }
+
+model Tournaments {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  court       String
+  users       String[]
+  host        String
+  maxSize     Int
+  description String
+}

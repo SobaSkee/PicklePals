@@ -22,8 +22,16 @@ function Header() {
             height={55}
             alt="logo"
             className="rounded-full"
-          ></Image>
+          />
         </Link>
+        <div className="hidden md:flex items-center gap-6 ml-6">
+          <Link href="/map" className="text-white hover:underline text-md font-medium">
+            Courts
+          </Link>
+          <Link href="/tournaments" className="text-white hover:underline text-md font-medium">
+            Tournaments
+          </Link>
+        </div>
         {/* Mobile menu button */}
         <div className="md:hidden">
           <Button variant="ghost" size="icon" className="text-base">
@@ -32,7 +40,7 @@ function Header() {
           </Button>
         </div>
         {/* Desktop navigation */}
-        <nav className="hidden md:flex items-center gap-2 ml-auto">
+        <nav className="hidden md:flex items-center gap-4 ml-auto">
           {!isSignedIn && (
             <>
               <Button
