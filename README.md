@@ -1,35 +1,58 @@
-# Development notes
-## Running the app
-(have the pre reqs like node and git)
-- **npm i**
-- **npm run dev**
+Welcome to **PicklePals**, a community-driven app designed to connect pickleball players with local courts and events.<br>Our mission is to make it easy for players of all skill levels to discover nearby courts, join games, and grow our local pickleball community.
 
-## Copy and paste the env keys
-- create .env.local file
-- create .env file
-- paste the keys if you're a contributor
-- reload the app <br>
-- now you can test out authentication by signing up or signing in, then go to clerk.com dashboard, in the users tab, to see the account you logged in with
+# 🛠️ Development Setup
 
-## Test prisma and mongodb
-- open another terminal in VSCode
-- run **npx prisma studio** to start which allows us to visualize the handling of data to interact with mongodb
-- it should be on something like localhost:5555 so navigate to that url
-- once on here we can try adding a dummy user (you might already see one named john)
-- put in an example email and name and save changes
-- now navigate to localhost:3000/users we should see that user rendered into the array of Users
-- go to mongodb and check the collections for picklepals and you should see the user you added in the user collection
+## ✅ Prerequisites
 
-## Test clerk webhooks using ngrok because clerk api can't reach our locally hosted app
-- create a ngrok account and copy the auth token <br>
-- download ngrok here: https://ngrok.com/downloads <br>
-- run the ngrok command to add auth your token (its on the setup page): **ngrok config add-authtoken <your-auth-token>**
-- run the ngrok command to test our locally hosted app on our ngrok domain: **ngrok http --url=evolving-wombat-adapted.ngrok-free.app 3000**
-- now you can try visiting our app that has been forwarded to this domain (it should look exactly like the local version): **https://evolving-wombat-adapted.ngrok-free.app**
-- to test out clerk webhook, go to clerk dashboard and scroll down until you see webhooks on the left sidebar
-- click the endpoint and click the testing tab
-- select user.created event type and send the example
-- we should see this dummy payload in our mongodb and on prisma studio now if it was sent properly
-- you can also test if it automatically adds a user to database when signing up, just remove your account from the clerk project in the users tab, sign up again on our locally hosted website, and it should automatically add the account you signed up with to our database (check on clerk, prisma studio, or mongodb)
+Make sure you have the following installed:
 
-  Note: all ngrok commands can be found here: https://dashboard.ngrok.com/get-started/setup/
+- [Node.js](https://nodejs.org/)
+- [Git](https://git-scm.com/)
+
+---
+
+## 📦 Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 🔑 Environment Variables
+
+1. Create the following files in the root directory:
+   ```
+   .env
+   .env.local
+   ```
+
+2. If you’re a contributor, paste in the environment keys provided to you.
+
+> ✅ *Tip: Check if a `.env.example` is available for reference.*
+
+---
+
+## 🗄️ MongoDB Configuration (Contributors Only)
+
+1. Make sure you are added as a **member** of the MongoDB Atlas project.
+2. Go to the **PicklePals MongoDB cluster**.
+3. Add your IP address to the **Network Access List** via the Atlas dashboard.
+
+---
+
+## 🧬 Generate Prisma Client
+
+Run the following to generate the Prisma client:
+
+```bash
+npx prisma generate
+```
+
+---
+
+## 🚀 Run the App Locally
+
+```bash
+npm run dev
+```
