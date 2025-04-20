@@ -40,6 +40,7 @@ const CourtSidebar: React.FC<CourtSidebarProps> = ({ court, onClose }) => {
         display: "flex",
         gap: "16px",
         overflowY: "auto",
+        paddingTop: "20px",
         flexDirection: "column",
         transform: slideIn ? "translateX(0%)" : "translateX(100%)",
         transition: "transform 0.3s ease-in-out",
@@ -55,6 +56,8 @@ const CourtSidebar: React.FC<CourtSidebarProps> = ({ court, onClose }) => {
           cursor: "pointer",
           color: "#888",
         }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "#0085d2")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "#888")}
       >
         ×
       </button>
@@ -81,18 +84,20 @@ const CourtSidebar: React.FC<CourtSidebarProps> = ({ court, onClose }) => {
       >
         {isPublic ? "Public Court" : "Private Court"}
       </p>
-      <p>Don't see a court listed in your area? Request a new court to be added!</p>
+      <div className="flex flex-col gap-2 border-t py-4 w-full"><p className="text-[14px] font-gr text-[#555]">Don&apos;t see a court listed in your area? Request a new court to be added!</p>
 
         <Link href="/courts/new" style={{
           backgroundColor: "#0284C7",
           color: "white",
+          width: "fit-content",
           padding: "12px 24px",
           borderRadius: "8px",
           border: "none",
           cursor: "pointer",
           fontSize: "16px",
           fontWeight: 600,
-        }}>Request a Court</Link>
+        }}>Request a Court</Link></div>
+      
 
     </div>
   );
