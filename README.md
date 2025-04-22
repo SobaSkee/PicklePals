@@ -23,7 +23,6 @@ npm install
 
 1. Create the following files in the root directory:
    ```
-   .env
    .env.local
    ```
 
