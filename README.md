@@ -42,7 +42,7 @@ npm install
 
 ## 🧬 Generate Prisma Client
 
-Run the following to generate the Prisma client:
+Run the following command to generate the Prisma client:
 
 ```bash
 npx prisma generate
